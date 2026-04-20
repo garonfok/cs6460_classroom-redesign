@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "d1-tutorial",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-08-05",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "grassroom",
+      "database_id": "426c6867-59fa-4bc6-8570-68a9b16ea4a9"
+    }
+  ]
+}

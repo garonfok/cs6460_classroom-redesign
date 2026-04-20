@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       String @id @default(cuid())
+  name     String
+  isTeacher Boolean @default(false)
+  announcements Announcement[]
+  announcementComments AnnouncementComment[]
+  userGrades UserAssignmentGrade[]
+  materials Material[]
+  userAnnouncementsSeen UserAnnouncementSeen[]
+}
+
+model Announcement {
+  id           String   @id @default(cuid())
+  content      String
+  comments     AnnouncementComment[]
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  userAnnouncementsSeen UserAnnouncementSeen[]
+  dateCreated DateTime @default(now())
+}
+
+model UserAnnouncementSeen {
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  announcement    Announcement @relation(fields: [announcementId], references: [id])
+  announcementId  String
+
+  @@id([userId, announcementId])
+}
+
+model AnnouncementComment {
+  id           String   @id @default(cuid())
+  announcement   Announcement @relation(fields: [announcementId], references: [id])
+  announcementId String
+  content      String
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  dateCreated DateTime @default(now())
+}
+
+model Assignment {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  dateDue     DateTime
+  userGrades   UserAssignmentGrade[]
+  pointsPossible       Int
+}
+
+model UserAssignmentGrade {
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId  String
+  points        Int
+  comments      String?
+  UserAssignmentGradeSeen UserAssignmentGradeSeen[]
+
+  @@id([userId, assignmentId])
+}
+
+model UserAssignmentGradeSeen {
+  userAssignmentGrade   UserAssignmentGrade @relation(fields: [userId, assignmentId], references: [userId, assignmentId])
+  userId               String
+  assignmentId         String
+
+  @@id([userId, assignmentId])
+}
+
+model Material {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  category     String
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+}
+
+model TelemetryEvent {
+  id           String   @id @default(cuid())
+  eventType    String
+  payload      Json
+  dateCreated  DateTime @default(now())
+}
