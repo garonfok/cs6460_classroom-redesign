@@ -165,6 +165,7 @@ const seedMaterials = async (teacherId: string) => {
 }
 
 const seed = async () => {
+  await prisma.telemetryEvent.deleteMany();
   await prisma.userAnnouncementSeen.deleteMany();
   await prisma.userAssignmentGradeSeen.deleteMany();
   await prisma.userAssignmentGrade.deleteMany();
