@@ -8,6 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import parse from "html-react-parser";
 
 export default function Announcements() {
 
@@ -70,7 +71,7 @@ export default function Announcements() {
                     </span>
                   </div>
                 </div>
-                <div className="px-4">{announcement.content}</div>
+                <div className="px-4">{parse(announcement.content)}</div>
               </div>
               <div className="py-1">
                 <Collapsible open={isOpen} onOpenChange={(open) => setOpenById((prev) => ({ ...prev, [announcement.id]: open }))}>

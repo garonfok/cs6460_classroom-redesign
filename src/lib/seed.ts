@@ -1,24 +1,55 @@
+import { Announcement } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { faker } from '@faker-js/faker';
 
 faker.seed(Number(process.env.RANDOM_SEED));
 
 const seedTeacher = async () => {
-  const seedAnnouncements = async (teacherId: string) => {
-    const numAnnouncements = faker.number.int({ min: 5, max: 10 });
-    for (let i = 0; i < numAnnouncements; i++) {
-      const announcement = await prisma.announcement.create({
-        data: {
-          dateCreated: faker.date.recent({ days: 30 }),
-          content: faker.lorem.paragraph(),
-          authorId: teacherId,
-        }
+  const seedAnnouncements = async (authorId: string) => {
+    // const numAnnouncements = faker.number.int({ min: 5, max: 10 });
+    // for (let i = 0; i < numAnnouncements; i++) {
+    //   const announcement = await prisma.announcement.create({
+    //     data: {
+    //       dateCreated: faker.date.recent({ days: 30 }),
+    //       content: faker.lorem.paragraph(),
+    //       authorId: teacherId,
+    //     }
+    //   });
+
+    //   await prisma.userAnnouncementSeen.create({
+    //     data: {
+    //       userId: teacher.id,
+    //       announcementId: announcement.id,
+    //     }
+    //   });
+    // }
+    const announcements: Omit<Announcement,"id">[] = [
+      {
+        authorId,
+        content: `<p>Please listen to Mr. Fok's directions and fill out this survey.</p><p>&nbsp;</p><p><a href="https://forms.gle/G6f8NkAfGWrxLd8D6?authuser=0">https://forms.gle/G6f8NkAfGWrxLd8D6?authuser=0</a></p>`,
+        dateCreated: new Date("2026-03-11")
+      },
+      {
+        authorId,
+        content: '<p>Please take this Post Test after our Fire Safety and Burn Prevention Assembly <br /><a href="https://docs.google.com/forms/d/1CRlkaAMnfhqmfXbNFNq0631YHaqedtEIK_p2-ua56yM/viewform?edit_requested=true" target="_blank">https://docs.google.com/forms/d/1CRlkaAMnfhqmfXbNFNq0631YHaqedtEIK_p2-ua56yM/viewform?edit_requested=true</a></p>',
+        dateCreated: new Date("2026-02-06")
+      },
+      {
+        authorId,
+        content: `<p>Today, you will be taking a short survey to tell us what you think about our school. There are no right or wrong answers, this is not a test. Your answers give us important information to help our school become even better. Your answers are anonymous, which means no one will know how you responded to the questions. Please read each item carefully and mark one choice for each item. The last two questions are optional and you can provide a short response.&nbsp; Please answer all of the questions from your own experience. If you need help reading a question, please raise your hand quietly. This survey may take you about 10-15 minutes. Thank you for taking this survey. You may begin.</p><p><a href="https://forms.gle/eDhLyN2neCUQEurK6?authuser=0">https://forms.gle/eDhLyN2neCUQEurK6?authuser=0</a></p>`,
+        dateCreated: new Date("2025-08-25")
+      }
+    ];
+
+    for (const announcement of announcements) {
+      const createdAnnouncement = await prisma.announcement.create({
+        data: announcement
       });
 
       await prisma.userAnnouncementSeen.create({
         data: {
-          userId: teacher.id,
-          announcementId: announcement.id,
+          userId: authorId,
+          announcementId: createdAnnouncement.id,
         }
       });
     }
