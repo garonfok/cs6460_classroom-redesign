@@ -26,6 +26,11 @@ const seedTeacher = async () => {
     const announcements: Omit<Announcement,"id">[] = [
       {
         authorId,
+        content: `<p>Today, you will be taking a short survey to tell us what you think about our school. There are no right or wrong answers, this is not a test. Your answers give us important information to help our school become even better. Your answers are anonymous, which means no one will know how you responded to the questions. Please read each item carefully and mark one choice for each item. The last two questions are optional and you can provide a short response.&nbsp; Answer all of the questions from your own experience, and only fill the form out once. If you need help reading a question, please raise your hand quietly. This survey may take you about 10-15 minutes. Thank you for taking this survey. You may begin.</p><p><a href="https://docs.google.com/forms/d/e/1FAIpQLSf6TaCFDnhhd27XdSbBCwHYT_Yre3HmyRJPUeVRQ_41iHRrlQ/viewform?usp=dialog&amp;authuser=0">https://docs.google.com/forms/d/e/1FAIpQLSf6TaCFDnhhd27XdSbBCwHYT_Yre3HmyRJPUeVRQ_41iHRrlQ/viewform?usp=dialog&amp;authuser=0</a></p>`,
+        dateCreated: new Date("2026-04-22")
+      },
+      {
+        authorId,
         content: `<p>Please listen to Mr. Fok's directions and fill out this survey.</p><p>&nbsp;</p><p><a href="https://forms.gle/G6f8NkAfGWrxLd8D6?authuser=0">https://forms.gle/G6f8NkAfGWrxLd8D6?authuser=0</a></p>`,
         dateCreated: new Date("2026-03-11")
       },
